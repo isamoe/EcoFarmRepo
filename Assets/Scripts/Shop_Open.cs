@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Shop_Open : MonoBehaviour
 {
-    public GameObject Panel;
+    public GameObject ShopPanel;
     //public GameObject Button;
     public void OpenPanel()
     {
-        if (Panel != null)
+        if (ShopPanel != null)
         {
-            bool isActive = Panel.activeSelf;
+            bool isActive = ShopPanel.activeSelf;
             //Console.WriteLine(isActive);
             print(isActive);
-            Panel.SetActive(!isActive);
+            ShopPanel.SetActive(!isActive);
             print(isActive);
             /*Button.transform.TransformPoint(-220, 0, 0);*/
             if (isActive == false)
