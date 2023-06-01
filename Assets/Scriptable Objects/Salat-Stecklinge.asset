@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2602a9d0ad5549a0af8e5e475f8595c, type: 3}
-  m_Name: Karotten-Saat
+  m_Name: Salat-Stecklinge
   m_EditorClassIdentifier: 
-  title: Karotten-Saat
-  describtion: Um Karotten anzupflanzen
-  baseCost: 5
+  title: Salat-Steckling
+  describtion: "Daraus werden gro\xDFe Salatk\xF6pfe"
+  baseCost: 7

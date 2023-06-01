@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2602a9d0ad5549a0af8e5e475f8595c, type: 3}
   m_Name: Sheeps
   m_EditorClassIdentifier: 
-  title: Feld
+  title: Schafe
   describtion: Um Wolle zu erhalten
   baseCost: 30

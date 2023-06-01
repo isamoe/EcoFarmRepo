@@ -10,14 +10,23 @@ public class ShopManager : MonoBehaviour
     public int coins;
     public TMP_Text coinUI;
     public ShopItemSO[] shopItemSO;
+    public GameObject[] shopPanelsGO;
     public ShopTemplate[] shopPanels;
-
+    public Button[] myPurchaseBtns;
+    
+    // Gekaufte GameObjects
+    public GameObject Field;
 
 
     private void Start()
     {
+        for(int i = 0; i < shopItemSO.Length; i++)
+        {
+            shopPanelsGO[i].SetActive(true);
+        }
         coinUI.text = "Coins: " + coins.ToString();
         LoadPanels();
+        CheckPurchaseable();
     }
 
     public void addCoins()
@@ -29,9 +38,46 @@ public class ShopManager : MonoBehaviour
 
     public void CheckPurchaseable()
     {
-        throw new NotImplementedException();
+        for( int i = 0; i < shopItemSO.Length; i++)
+        {
+            if (coins >= shopItemSO[i].baseCost)
+                myPurchaseBtns[i].interactable = true;
+            else
+                myPurchaseBtns[i].interactable = false;
+        }
     }
 
+    public void PurchaseItem(int btnNo)
+    {
+        if(coins >= shopItemSO[btnNo].baseCost)
+        {
+            // Active Element 
+            String elementName = shopItemSO[btnNo].title;
+
+            /*
+            GameObject inactiveObject = GameObject.FindGameObjectWithTag("InactiveGameObject");
+            inactiveObject.SetActive(true);
+            bool isActive = inactiveObject.activeSelf;
+            print("gefunden: " + isActive);
+            */
+
+            GameObject[] allObjects = FindObjectsOfType<GameObject>(true);
+            bool gefunden = false;
+            foreach (GameObject go in allObjects)
+            {
+                if (go.name == elementName)
+                {
+                    go.SetActive(true);
+                    gefunden = true;
+                }
+            }
+            print("gefunden: " + gefunden);
+            
+            coins = coins - shopItemSO[btnNo].baseCost;
+            coinUI.text = "Coins: " + coins.ToString();
+            CheckPurchaseable();
+        }
+    }
     
     public void LoadPanels()
     {
