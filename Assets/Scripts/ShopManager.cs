@@ -17,6 +17,16 @@ public class ShopManager : MonoBehaviour
     // Gekaufte GameObjects
     public GameObject Field;
 
+    // Fürs Platzieren
+    // Liste der Objects (Nummerierung) muss Liste der Scriptable Objects entsprechen!
+    public GameObject[] objects;
+
+    private Vector3 pos;
+    private RaycastHit hit;
+    [SerializeField] private LayerMask layerMask;
+
+    private GameObject selectedObject;
+
 
     private void Start()
     {
@@ -27,6 +37,18 @@ public class ShopManager : MonoBehaviour
         coinUI.text = "Coins: " + coins.ToString();
         LoadPanels();
         CheckPurchaseable();
+    }
+
+    public void Update()
+    {
+        if(selectedObject != null)
+        {
+            selectedObject.transform.position = pos;
+            if(Input.GetMouseButtonDown(0))
+            {
+                PlaceObject();
+            }
+        }
     }
 
     public void addCoins()
@@ -49,30 +71,26 @@ public class ShopManager : MonoBehaviour
 
     public void PurchaseItem(int btnNo)
     {
-        if(coins >= shopItemSO[btnNo].baseCost)
+        if (coins >= shopItemSO[btnNo].baseCost)
         {
             // Active Element 
             String elementName = shopItemSO[btnNo].title;
 
-            /*
-            GameObject inactiveObject = GameObject.FindGameObjectWithTag("InactiveGameObject");
-            inactiveObject.SetActive(true);
-            bool isActive = inactiveObject.activeSelf;
-            print("gefunden: " + isActive);
-            */
+            // Select Object zum Platzieren
+            // Liste der Objects (Nummerierung) muss Liste der Scriptable Objects entsprechen!
+            selectedObject = Instantiate(objects[btnNo], pos, transform.rotation);
 
+            /* 
             GameObject[] allObjects = FindObjectsOfType<GameObject>(true);
-            bool gefunden = false;
             foreach (GameObject go in allObjects)
             {
                 if (go.name == elementName)
                 {
                     go.SetActive(true);
-                    gefunden = true;
                 }
             }
-            print("gefunden: " + gefunden);
-            
+            */
+
             coins = coins - shopItemSO[btnNo].baseCost;
             coinUI.text = "Coins: " + coins.ToString();
             CheckPurchaseable();
@@ -88,6 +106,27 @@ public class ShopManager : MonoBehaviour
             shopPanels[i].costTxt.text = "Coins: " + shopItemSO[i].baseCost.ToString();
         }
     }
-    
+
+
+    // Platzieren der Objekte
+
+    // Wird am Ende jedes Frames aufgerufen, updated Physics 
+    private void FixedUpdate()
+    {
+        if(selectedObject != null)
+        {
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mouseWorldPosition.z = 0f;
+            selectedObject.transform.position = mouseWorldPosition;
+
+            pos = mouseWorldPosition;
+        }
+    }
+
+    public void PlaceObject()
+    {
+        selectedObject = null;
+    }
+
 }
 
